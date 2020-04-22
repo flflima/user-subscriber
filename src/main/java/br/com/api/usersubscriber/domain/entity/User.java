@@ -1,16 +1,15 @@
 package br.com.api.usersubscriber.domain.entity;
 
+import de.huxhorn.sulky.ulid.ULID;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
-
-import java.util.UUID;
 
 @Data
 @Setter(AccessLevel.PRIVATE)
 public class User {
 
-    private String id = UUID.randomUUID().toString();
+    private String id = new ULID().nextULID();
     private String name;
     private String birthDate;
     private String email;
