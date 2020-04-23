@@ -15,6 +15,9 @@ public class User {
     private String email;
     private boolean notifyMe = true;
 
+    public User() {
+    }
+
     public User(String name, String birthDate, String email, boolean notifyMe) {
         this.name = name;
         this.birthDate = birthDate;

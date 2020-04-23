@@ -4,10 +4,12 @@ import br.com.api.usersubscriber.domain.entity.User;
 import br.com.api.usersubscriber.domain.model.exception.InvalidRequestBodyException;
 import br.com.api.usersubscriber.domain.service.UserService;
 import br.com.api.usersubscriber.infrastructure.service.UserRepository;
+import lombok.Data;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Data
 @Service
 public class UserServiceImpl implements UserService {
 
