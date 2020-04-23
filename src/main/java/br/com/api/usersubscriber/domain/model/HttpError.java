@@ -1,11 +1,15 @@
 package br.com.api.usersubscriber.domain.model;
 
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Setter;
+
+@Data
+@Setter(AccessLevel.PRIVATE)
 public class HttpError {
-    private int statusCode;
     private String message;
 
-    public HttpError(int statusCode, String message) {
-        this.statusCode = statusCode;
+    public HttpError(String message) {
         this.message = message;
     }
 }

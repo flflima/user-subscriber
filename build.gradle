@@ -35,7 +35,8 @@ dependencies {
 
 	compile 'de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.2.0'
 	compile 'org.apache.httpcomponents:httpclient:4.5.12'
-
+	compile 'com.fasterxml.jackson.core:jackson-databind:2.9.8'
+	
 	// mandatory dependencies for using Spock
 	compile "org.codehaus.groovy:groovy-all:2.5.8"
 	testCompile platform("org.spockframework:spock-bom:2.0-M1-groovy-2.5")
