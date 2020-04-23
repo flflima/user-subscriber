@@ -1,0 +1,17 @@
+version: '3.1'
+
+services:
+  mongo:
+    image: mongo:3.6.17-xenial
+#    restart: always
+    command: mongod --smallfiles
+    ports:
+      - 27017:27017
+    volumes:
+      - $PWD/mongodb:/docker-entrypoint-initdb.d
+    environment:
+      - MONGO_USER=root
+      - MONGO_PASS=root
+      - MONGO_DATABASE=admin
+      - MONGO_HOSTS=127.0.0.1
+      - MONGO_PORTS=27017
