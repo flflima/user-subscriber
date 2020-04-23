@@ -9,6 +9,8 @@ import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Data
 @Service
 public class UserServiceImpl implements UserService {
@@ -24,6 +26,11 @@ public class UserServiceImpl implements UserService {
     public User create(User user) throws InvalidRequestBodyException {
         validateUserInputs(user);
         return userRepository.create(user);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.getAllUsers();
     }
 
     private void validateUserInputs(User user) throws InvalidRequestBodyException {
