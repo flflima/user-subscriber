@@ -2,6 +2,7 @@ package br.com.api.usersubscriber.application.controller;
 
 import br.com.api.usersubscriber.domain.entity.User;
 import br.com.api.usersubscriber.domain.model.exception.InvalidRequestBodyException;
+import br.com.api.usersubscriber.domain.service.POCService;
 import br.com.api.usersubscriber.domain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,9 @@ public class UserController {
     private UserService userService;
 
     @Autowired
+    private POCService pocService;
+
+    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -30,6 +34,8 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
+
+        pocService.sendEmail();
         return new ResponseEntity<>(this.userService.getAllUsers(), HttpStatus.OK);
     }
 
