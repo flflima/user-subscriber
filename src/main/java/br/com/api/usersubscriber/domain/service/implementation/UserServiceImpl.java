@@ -25,12 +25,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User create(User user) throws InvalidRequestBodyException {
         validateUserInputs(user);
-        return userRepository.create(user);
+        return userRepository.save(user);
     }
 
     @Override
     public List<User> getAllUsers() {
-        return userRepository.getAllUsers();
+        return userRepository.findAll();
     }
 
     private void validateUserInputs(User user) throws InvalidRequestBodyException {

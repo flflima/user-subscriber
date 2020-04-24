@@ -1,10 +1,8 @@
 package br.com.api.usersubscriber.infrastructure.service;
 
 import br.com.api.usersubscriber.domain.entity.User;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-public interface UserRepository {
-    User create(User user);
-    List<User> getAllUsers();
-}
+@Repository
+public interface UserRepository extends MongoRepository<User, String> {}
