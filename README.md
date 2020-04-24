@@ -8,6 +8,16 @@ Creates a user and notifies via email.
 2. The received data is persisted in a database
 3. A notification is sent to user's e-mail
 
+## Environment Variables
+Creates an environment file (e.g. _variables.env_) or export the following variables to OS.
+```bash
+SPRING_DATA_MONGODB_HOST=127.0.0.1
+SPRING_DATA_MONGODB_PORT=27017
+SPRING_DATA_MONGODB_DATABASE=subscriber
+SPRING_DATA_MONGODB_USERNAME=(mongodb user)
+SPRING_DATA_MONGODB_PASSWORD=(mongodb password)
+```
+
 ## Build
 ```bash
 ./gradlew clean build
