@@ -12,6 +12,6 @@ services:
     environment:
       - MONGO_USER=root
       - MONGO_PASS=root
-      - MONGO_DATABASE=admin
+      - MONGO_DATABASE=subscriber
       - MONGO_HOSTS=127.0.0.1
       - MONGO_PORTS=27017
