@@ -1,26 +1,31 @@
 package br.com.api.usersubscriber.domain.service.implementation
 
-
+import br.com.api.usersubscriber.UserSubscriberApplication
 import br.com.api.usersubscriber.domain.entity.User
 import br.com.api.usersubscriber.domain.model.exception.InvalidRequestBodyException
 import br.com.api.usersubscriber.domain.service.UserService
-import br.com.api.usersubscriber.infrastructure.service.implementation.UserRepositoryImpl
+import br.com.api.usersubscriber.infrastructure.service.UserRepository
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
 import spock.lang.Unroll
 
-class UserServiceImplTest extends Specification {
-    final UserRepositoryImpl userRepository = Mock(UserRepositoryImpl)
+@SpringBootTest
+@ContextConfiguration(classes = UserSubscriberApplication.class)
+class UserServiceImplSpec extends Specification {
+
+    UserRepository userRepository = Mock(UserRepository)
 
     void "must return created user when all fields are valid"() {
         given: "An user with valid inputs."
-        final User user = new User("John Doe", "1980-10-10", "john.doe@email.com")
+        User user = new User("John Doe", "1980-10-10", "john.doe@email.com")
 
         when: "The user is created."
-        final UserService userService = new UserServiceImpl(userRepository)
-        final User createdUser = userService.create(user)
+        UserService userService = new UserServiceImpl(userRepository)
+        User createdUser = userService.create(user)
 
         then: "The returned User values must remain the same."
-        1 * userRepository.create(user) >> user
+        1 * userRepository.save(user) >> user
 
         verifyAll {
             user.name == createdUser.name
@@ -45,9 +50,9 @@ class UserServiceImplTest extends Specification {
         e.statusCode == statusCode
 
         where:
-        name            | birthDate     | email | message                                   | statusCode
-        ""              | ""            | ""    | "The name field must not be empty."       | 422
-        "John Doe"      | ""            | ""    | "The birthDate field must not be empty."  | 422
-        "John Doe"      | "1980-10-10"  | ""    | "The email field must not be empty."      | 422
+        name       | birthDate    | email | message                                  | statusCode
+        ""         | ""           | ""    | "The name field must not be empty."      | 422
+        "John Doe" | ""           | ""    | "The birthDate field must not be empty." | 422
+        "John Doe" | "1980-10-10" | ""    | "The email field must not be empty."     | 422
     }
 }
