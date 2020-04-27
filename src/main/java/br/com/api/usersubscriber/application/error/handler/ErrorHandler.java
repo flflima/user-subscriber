@@ -2,6 +2,8 @@ package br.com.api.usersubscriber.application.error.handler;
 
 import br.com.api.usersubscriber.domain.model.HttpError;
 import br.com.api.usersubscriber.domain.model.exception.InvalidRequestBodyException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +12,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+
 @ControllerAdvice
 public class ErrorHandler extends ResponseEntityExceptionHandler {
+
+  private final Logger logger = LoggerFactory.getLogger(ErrorHandler.class);
 
   @ExceptionHandler(value = InvalidRequestBodyException.class)
   protected ResponseEntity<Object> handleInvalidRequestBodyException(
@@ -26,6 +31,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(value = Exception.class)
   protected ResponseEntity<Object> handleGenericException(Exception ex, WebRequest request) {
+    logger.error(ex.getMessage());
     return handleExceptionInternal(
         ex,
         new HttpError(ex.getMessage()),

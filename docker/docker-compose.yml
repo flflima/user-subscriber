@@ -15,3 +15,16 @@ services:
       - MONGO_DATABASE=subscriber
       - MONGO_HOSTS=127.0.0.1
       - MONGO_PORTS=27017
+
+  smtp-mail:
+    image: namshi/smtp
+    container_name: smtp_relay
+    restart: always
+    ports:
+      - "25:25"
+    environment:
+      - SMARTHOST_ADDRESS=mail.mysmtp.com
+      - SMARTHOST_PORT=587
+      - SMARTHOST_USER=myuser
+      - SMARTHOST_PASSWORD=secret
+      - SMARTHOST_ALIASES=*.mysmtp.com
