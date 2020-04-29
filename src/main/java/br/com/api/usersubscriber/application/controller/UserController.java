@@ -14,23 +14,23 @@ import java.util.List;
 @RequestMapping(value = "/users")
 public class UserController {
 
-    private UserService userService;
+  private UserService userService;
 
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+  @Autowired
+  public UserController(UserService userService) {
+    this.userService = userService;
+  }
 
-    @PostMapping
-    public ResponseEntity<User> create(@RequestBody User user) throws InvalidRequestBodyException {
-        User createdUser = this.userService.create(user);
-        final ResponseEntity<User> responseEntity = new ResponseEntity<>(createdUser, HttpStatus.CREATED);
-        return responseEntity;
-    }
+  @PostMapping
+  public ResponseEntity<User> create(@RequestBody User user) throws InvalidRequestBodyException {
+    User createdUser = this.userService.create(user);
+    final ResponseEntity<User> responseEntity =
+        new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+    return responseEntity;
+  }
 
-    @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        return new ResponseEntity<>(this.userService.getAllUsers(), HttpStatus.OK);
-    }
-
+  @GetMapping
+  public ResponseEntity<List<User>> getAllUsers() {
+    return new ResponseEntity<>(this.userService.getAllUsers(), HttpStatus.OK);
+  }
 }

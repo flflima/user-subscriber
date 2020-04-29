@@ -3,6 +3,7 @@ package br.com.api.usersubscriber.domain.service.implementation;
 import br.com.api.usersubscriber.domain.entity.User;
 import br.com.api.usersubscriber.domain.model.exception.InvalidRequestBodyException;
 import br.com.api.usersubscriber.domain.service.UserService;
+import br.com.api.usersubscriber.infrastructure.gateway.MovieGateway;
 import br.com.api.usersubscriber.infrastructure.repository.UserRepository;
 import lombok.Data;
 import org.apache.http.HttpStatus;
@@ -15,36 +16,40 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private UserRepository userRepository;
+  private UserRepository userRepository;
 
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+  @Autowired
+  private MovieGateway movieGateway;
 
-    @Override
-    public User create(User user) throws InvalidRequestBodyException {
-        validateUserInputs(user);
-        return userRepository.save(user);
-    }
+  @Autowired
+  public UserServiceImpl(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
-    @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
+  @Override
+  public User create(User user) throws InvalidRequestBodyException {
+    validateUserInputs(user);
+    return userRepository.save(user);
+  }
 
-    private void validateUserInputs(User user) throws InvalidRequestBodyException {
-        if (user.getName().trim().isEmpty()) {
-            throw new InvalidRequestBodyException(
-                    "The name field must not be empty.", HttpStatus.SC_UNPROCESSABLE_ENTITY);
-        }
-        if (user.getBirthDate().trim().isEmpty()) {
-            throw new InvalidRequestBodyException(
-                    "The birthDate field must not be empty.", HttpStatus.SC_UNPROCESSABLE_ENTITY);
-        }
-        if (user.getEmail().trim().isEmpty()) {
-            throw new InvalidRequestBodyException(
-                    "The email field must not be empty.", HttpStatus.SC_UNPROCESSABLE_ENTITY);
-        }
+  @Override
+  public List<User> getAllUsers() {
+      movieGateway.getRandomMovie();
+    return userRepository.findAll();
+  }
+
+  private void validateUserInputs(User user) throws InvalidRequestBodyException {
+    if (user.getName().trim().isEmpty()) {
+      throw new InvalidRequestBodyException(
+          "The name field must not be empty.", HttpStatus.SC_UNPROCESSABLE_ENTITY);
     }
+    if (user.getBirthDate().trim().isEmpty()) {
+      throw new InvalidRequestBodyException(
+          "The birthDate field must not be empty.", HttpStatus.SC_UNPROCESSABLE_ENTITY);
+    }
+    if (user.getEmail().trim().isEmpty()) {
+      throw new InvalidRequestBodyException(
+          "The email field must not be empty.", HttpStatus.SC_UNPROCESSABLE_ENTITY);
+    }
+  }
 }

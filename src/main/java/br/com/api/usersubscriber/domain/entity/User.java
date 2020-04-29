@@ -9,25 +9,24 @@ import lombok.Setter;
 @Setter(AccessLevel.PRIVATE)
 public class User {
 
-    private String id = new ULID().nextULID();
-    private String name;
-    private String birthDate;
-    private String email;
-    private boolean notifyMe = true;
+  private String id = new ULID().nextULID();
+  private String name;
+  private String birthDate;
+  private String email;
+  private boolean notifyMe = true;
 
-    public User() {
-    }
+  public User() {}
 
-    public User(String name, String birthDate, String email, boolean notifyMe) {
-        this.name = name;
-        this.birthDate = birthDate;
-        this.email = email;
-        this.notifyMe = notifyMe;
-    }
+  public User(String name, String birthDate, String email, boolean notifyMe) {
+    this.name = name;
+    this.birthDate = birthDate;
+    this.email = email;
+    this.notifyMe = notifyMe;
+  }
 
-    public User(String name, String birthDate, String email) {
-        this.name = name;
-        this.birthDate = birthDate;
-        this.email = email;
-    }
+  public User(String name, String birthDate, String email) {
+    this.name = name;
+    this.birthDate = birthDate;
+    this.email = email;
+  }
 }
