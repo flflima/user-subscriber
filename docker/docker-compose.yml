@@ -15,3 +15,12 @@ services:
       - MONGO_DATABASE=subscriber
       - MONGO_HOSTS=127.0.0.1
       - MONGO_PORTS=27017
+
+  node:
+    image: node:14.0.0
+    command: bash -c "npm install && npm start"
+    volumes:
+      - $PWD/movies-server:/usr/src/movies-server
+    working_dir: /usr/src/movies-server
+    ports:
+      - 3000:3000
