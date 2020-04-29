@@ -37,11 +37,7 @@ dependencies {
 	compile 'org.apache.httpcomponents:httpclient:4.5.12'
 	compile 'com.fasterxml.jackson.core:jackson-databind:2.9.8'
 
-	// mandatory dependencies for using Spock
-	compile "org.codehaus.groovy:groovy-all:2.5.8"
-	// Using version 1.1-groovy-2.4-rc-1 for compability
-	testCompile('org.spockframework:spock-core:1.1-groovy-2.4-rc-1')
-	testCompile('org.spockframework:spock-spring:1.1-groovy-2.4-rc-1')
+	testCompile("org.assertj:assertj-core:3.11.1")
 }
 
 test {
