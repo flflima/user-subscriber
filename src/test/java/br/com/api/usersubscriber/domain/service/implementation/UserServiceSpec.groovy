@@ -4,7 +4,7 @@ import br.com.api.usersubscriber.UserSubscriberApplication
 import br.com.api.usersubscriber.domain.entity.User
 import br.com.api.usersubscriber.domain.model.exception.InvalidRequestBodyException
 import br.com.api.usersubscriber.domain.service.UserService
-import br.com.api.usersubscriber.infrastructure.service.UserRepository
+import br.com.api.usersubscriber.infrastructure.repository.UserRepository
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 import spock.lang.Specification
@@ -12,7 +12,7 @@ import spock.lang.Unroll
 
 @SpringBootTest
 @ContextConfiguration(classes = UserSubscriberApplication.class)
-class UserServiceImplSpec extends Specification {
+class UserServiceSpec extends Specification {
 
     UserRepository userRepository = Mock(UserRepository)
 

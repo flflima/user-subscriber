@@ -3,7 +3,7 @@ package br.com.api.usersubscriber.domain.service.implementation;
 import br.com.api.usersubscriber.domain.entity.User;
 import br.com.api.usersubscriber.domain.model.exception.InvalidRequestBodyException;
 import br.com.api.usersubscriber.domain.service.UserService;
-import br.com.api.usersubscriber.infrastructure.service.UserRepository;
+import br.com.api.usersubscriber.infrastructure.repository.UserRepository;
 import lombok.Data;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package br.com.api.usersubscriber.infrastructure.service;
+package br.com.api.usersubscriber.infrastructure.repository;
 
 import br.com.api.usersubscriber.domain.entity.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
