@@ -2,7 +2,7 @@ const http = require('http');
 const path = require('path');
 
 const server = http.createServer((req, res) => {
-  if (req.url === path.normalize('/movies/random')) {
+  if (req.url === path.normalize('/movie/random')) {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.write(`{
       "title": "Raiders of the Lost Ark",

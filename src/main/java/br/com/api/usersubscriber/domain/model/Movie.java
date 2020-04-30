@@ -7,9 +7,9 @@ import lombok.Setter;
 @Data
 @Setter(AccessLevel.PRIVATE)
 public class Movie {
-  private String title;
-  private String ptTitle;
-  private String year;
+  private String title = "";
+  private String ptTitle = "";
+  private String year = "";
 
   public Movie() {}
 

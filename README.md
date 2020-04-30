@@ -11,11 +11,15 @@ Creates a user and notifies via email.
 ## Environment Variables
 Creates an environment file (e.g. _variables.env_) or export the following variables to OS.
 ```bash
+# MONGODB SPRING
 SPRING_DATA_MONGODB_HOST=127.0.0.1
 SPRING_DATA_MONGODB_PORT=27017
 SPRING_DATA_MONGODB_DATABASE=subscriber
 SPRING_DATA_MONGODB_USERNAME=(mongodb user)
 SPRING_DATA_MONGODB_PASSWORD=(mongodb password)
+
+# Movies API URL
+URL_MOVIE_RANDOM=(random movies URL)
 ```
 
 ## Build
