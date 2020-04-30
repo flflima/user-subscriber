@@ -33,4 +33,10 @@ public class UserController {
   public ResponseEntity<List<User>> getAllUsers() {
     return new ResponseEntity<>(this.userService.getAllUsers(), HttpStatus.OK);
   }
+
+  @PostMapping(value = "/alert")
+  public ResponseEntity alertAllUsers() {
+    this.userService.notifyUsers();
+    return new ResponseEntity<>(HttpStatus.ACCEPTED);
+  }
 }

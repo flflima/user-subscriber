@@ -6,6 +6,11 @@ import br.com.api.usersubscriber.domain.model.exception.InvalidRequestBodyExcept
 import java.util.List;
 
 public interface UserService {
-    User create(User user) throws InvalidRequestBodyException;
-    List<User> getAllUsers();
+  User create(User user) throws InvalidRequestBodyException;
+
+  List<User> getAllUsers();
+
+  boolean notifyUsers();
+
+  User updateUserMovie(User user);
 }

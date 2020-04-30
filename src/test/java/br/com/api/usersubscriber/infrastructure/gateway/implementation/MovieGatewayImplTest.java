@@ -28,7 +28,7 @@ class MovieGatewayImplTest {
     final MovieGateway movieGateway = new MovieGatewayImpl(restTemplate, environmentConfig);
 
     when(restTemplate.getForObject(anyString(), any()))
-        .thenReturn(new Movie("Movie test", "Test", "2020"));
+        .thenReturn(new Movie("001", "Movie test", "Test", "2020"));
     when(environmentConfig.getUrlMovieRandom()).thenReturn("");
 
     final Movie movie = movieGateway.getRandomMovie();

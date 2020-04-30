@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"{{name}}\",\n\t\"birthDate\": \"{{birthDate}}\",\n\t\"email\": \"{{email}}\"\n}",
+					"raw": "{\n\t\"name\": \"{{name}}\",\n\t\"birth_date\": \"{{birthDate}}\",\n\t\"email\": \"{{email}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -50,6 +50,26 @@
 					]
 				},
 				"description": "# Gets all users"
+			},
+			"response": []
+		},
+		{
+			"name": "Alerts all users",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/users/alert",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"alert"
+					]
+				}
 			},
 			"response": []
 		}
