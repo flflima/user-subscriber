@@ -3,7 +3,8 @@ version: '3.1'
 services:
   mongo:
     image: mongo:3.6.17-xenial
-#    restart: always
+    container_name: mongo
+    restart: always
     command: mongod --smallfiles
     ports:
       - 27017:27017
@@ -18,9 +19,20 @@ services:
 
   node:
     image: node:14.0.0
+    container_name: node
     command: bash -c "npm install && npm start"
     volumes:
       - $PWD/movies-server:/usr/src/movies-server
     working_dir: /usr/src/movies-server
     ports:
       - 3000:3000
+
+  rabbitmq:
+    image: rabbitmq:3.8.3-management
+    container_name: rabbitmq
+    volumes:
+      - $PWD/rabbitmq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config:ro
+      - $PWD/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro
+    ports:
+      - 5672:5672
+      - 15672:15672
