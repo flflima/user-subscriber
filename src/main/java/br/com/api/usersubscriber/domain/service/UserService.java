@@ -2,6 +2,7 @@ package br.com.api.usersubscriber.domain.service;
 
 import br.com.api.usersubscriber.domain.entity.User;
 import br.com.api.usersubscriber.domain.model.exception.InvalidRequestBodyException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ public interface UserService {
 
   List<User> getAllUsers();
 
-  boolean notifyUsers();
+  boolean notifyUsers() throws JsonProcessingException;
 
   User updateUserMovie(User user);
 }

@@ -1,11 +1,14 @@
 package br.com.api.usersubscriber.domain.service.implementation;
 
 import br.com.api.usersubscriber.domain.entity.User;
+import br.com.api.usersubscriber.domain.extensions.JsonExtension;
 import br.com.api.usersubscriber.domain.model.Movie;
 import br.com.api.usersubscriber.domain.model.exception.InvalidRequestBodyException;
 import br.com.api.usersubscriber.domain.service.UserService;
 import br.com.api.usersubscriber.infrastructure.gateway.MovieGateway;
+import br.com.api.usersubscriber.infrastructure.queue.QueueManager;
 import br.com.api.usersubscriber.infrastructure.repository.UserRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.Data;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +24,20 @@ public class UserServiceImpl implements UserService {
 
   private MovieGateway movieGateway;
 
+  private QueueManager queueManager;
+
+  private JsonExtension jsonExtension;
+
   @Autowired
-  public UserServiceImpl(UserRepository userRepository, MovieGateway movieGateway) {
+  public UserServiceImpl(
+      UserRepository userRepository,
+      MovieGateway movieGateway,
+      QueueManager queueManager,
+      JsonExtension jsonExtension) {
     this.userRepository = userRepository;
     this.movieGateway = movieGateway;
+    this.queueManager = queueManager;
+    this.jsonExtension = jsonExtension;
   }
 
   @Override
@@ -44,7 +57,7 @@ public class UserServiceImpl implements UserService {
       throw new InvalidRequestBodyException(
           "The name field must not be null or empty.", HttpStatus.SC_UNPROCESSABLE_ENTITY);
     }
-    if ( user.getBirthDate().trim().isEmpty()) {
+    if (user.getBirthDate().trim().isEmpty()) {
       throw new InvalidRequestBodyException(
           "The birthDate field must not be null or empty.", HttpStatus.SC_UNPROCESSABLE_ENTITY);
     }
@@ -55,13 +68,13 @@ public class UserServiceImpl implements UserService {
   }
 
   // TODO method that retrieves a user list and send to a queue
-  public boolean notifyUsers() {
+  public boolean notifyUsers() throws JsonProcessingException {
     final List<User> notifiableUsers = userRepository.findByNotifyMeTrue();
 
     System.out.println(notifiableUsers.size());
-    return true;
-  }
 
+    return this.queueManager.send(jsonExtension.toJsonString(notifiableUsers));
+  }
 
   public User updateUserMovie(final User user) {
     final Movie movie = movieGateway.getRandomMovie();
@@ -69,4 +82,3 @@ public class UserServiceImpl implements UserService {
     return userRepository.save(updateUser);
   }
 }
-

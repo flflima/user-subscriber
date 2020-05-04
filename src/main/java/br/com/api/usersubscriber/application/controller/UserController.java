@@ -6,7 +6,11 @@ import br.com.api.usersubscriber.domain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -35,8 +39,11 @@ public class UserController {
   }
 
   @PostMapping(value = "/alert")
-  public ResponseEntity alertAllUsers() {
-    this.userService.notifyUsers();
+  public ResponseEntity alertAllUsers() throws Exception {
+    if (!this.userService.notifyUsers()) {
+      //TODO
+      throw new Exception("");
+    }
     return new ResponseEntity<>(HttpStatus.ACCEPTED);
   }
 }
