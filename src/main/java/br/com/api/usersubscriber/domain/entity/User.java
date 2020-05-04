@@ -25,6 +25,7 @@ public class User {
 
   public User(User that, Movie movie) {
     this(that.getName(), that.getBirthDate(), that.getEmail(), movie, that.isNotifyMe());
+    this.id = that.id;
   }
 
   public User(String name, String birthDate, String email, Movie movie, boolean notifyMe) {

@@ -37,6 +37,7 @@ dependencies {
 	compile 'org.apache.httpcomponents:httpclient:4.5.12'
 	compile 'com.fasterxml.jackson.core:jackson-databind:2.9.8'
 	compile 'javax.jms:javax.jms-api:2.0'
+	compile 'org.springframework:spring-jms:5.2.6.RELEASE'
 	compile 'com.rabbitmq.jms:rabbitmq-jms:2.0.0'
 
 

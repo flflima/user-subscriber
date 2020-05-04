@@ -1,68 +1,54 @@
 package br.com.api.usersubscriber.infrastructure.queue;
 
-import br.com.api.usersubscriber.application.config.EnvironmentConfig;
+import br.com.api.usersubscriber.domain.entity.User;
 import br.com.api.usersubscriber.domain.extensions.JsonExtension;
-import br.com.api.usersubscriber.infrastructure.queue.implementation.AllSubscribersQueueProducerImpl;
+import br.com.api.usersubscriber.domain.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
-import javax.jms.JMSException;
-import javax.jms.MessageConsumer;
-import javax.jms.Queue;
-import javax.jms.Session;
+import java.io.IOException;
+import java.util.List;
 
 @Component
 public class QueueManager {
-
-  private Session session;
-  private EnvironmentConfig environmentConfig;
-  private Queue queue;
-
+  private JmsTemplate jmsTemplate;
   private JsonExtension jsonExtension;
-  //  private UserService userService;
-  private QueueProducer allSubscribersProducer;
+  private UserService userService;
 
   @Autowired
-  public QueueManager(
-      Session session, EnvironmentConfig environmentConfig, JsonExtension jsonExtension /*,
-      UserService userService*/)
-      throws Exception {
+  public void setJmsTemplate(JmsTemplate jmsTemplate) {
+    this.jmsTemplate = jmsTemplate;
+  }
+
+  @Autowired
+  public void setJsonExtension(JsonExtension jsonExtension) {
     this.jsonExtension = jsonExtension;
-    //    this.userService = userService;
-    this.session = session;
-    this.environmentConfig = environmentConfig;
-
-    // TODO queue from config
-    try {
-      this.queue = session.createQueue("all-subscribers");
-      this.allSubscribersProducer =
-          new AllSubscribersQueueProducerImpl(session, environmentConfig, queue);
-      startListeningAllSubscribersQueue();
-    } catch (JMSException e) {
-      // TODO add logger
-      e.printStackTrace();
-      // TODO throw exception
-      throw new Exception();
-    }
   }
 
-  public boolean send(String payload) {
-    return this.allSubscribersProducer.send(payload);
+  @Autowired
+  public void setUserService(UserService userService) {
+    this.userService = userService;
   }
 
-  private void startListeningAllSubscribersQueue() throws Exception {
-    System.out.println(session);
-    // TODO queue from config
+  public boolean sendMessage(String payload) {
+    jmsTemplate.convertAndSend("all-subscribers", payload);
+    return true;
+  }
+
+  @JmsListener(destination = "all-subscribers")
+  protected void receiveMessage(String message) throws Exception {
     try {
-      //      this.queue = session.createQueue("all-subscribers");
-      MessageConsumer consumer = session.createConsumer(this.queue);
-      System.out.println(consumer);
-      consumer.setMessageListener(new AllSubscribersQueueListener(jsonExtension /*, userService*/));
-    } catch (JMSException e) {
-      // TODO add logger
+      final List<User> users = jsonExtension.toObjectList(message, User.class);
+
+      users.forEach(
+          user -> {
+            System.out.println("received " + user);
+            userService.updateUserMovie(user);
+          });
+    } catch (IOException e) {
       e.printStackTrace();
-      // TODO throw exception
-      throw e;
     }
   }
 }

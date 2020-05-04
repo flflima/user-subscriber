@@ -9,14 +9,12 @@ import br.com.api.usersubscriber.infrastructure.gateway.MovieGateway;
 import br.com.api.usersubscriber.infrastructure.queue.QueueManager;
 import br.com.api.usersubscriber.infrastructure.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import lombok.Data;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Data
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -29,14 +27,22 @@ public class UserServiceImpl implements UserService {
   private JsonExtension jsonExtension;
 
   @Autowired
-  public UserServiceImpl(
-      UserRepository userRepository,
-      MovieGateway movieGateway,
-      QueueManager queueManager,
-      JsonExtension jsonExtension) {
+  public void setUserRepository(UserRepository userRepository) {
     this.userRepository = userRepository;
+  }
+
+  @Autowired
+  public void setMovieGateway(MovieGateway movieGateway) {
     this.movieGateway = movieGateway;
+  }
+
+  @Autowired
+  public void setQueueManager(QueueManager queueManager) {
     this.queueManager = queueManager;
+  }
+
+  @Autowired
+  public void setJsonExtension(JsonExtension jsonExtension) {
     this.jsonExtension = jsonExtension;
   }
 
@@ -67,13 +73,10 @@ public class UserServiceImpl implements UserService {
     }
   }
 
-  // TODO method that retrieves a user list and send to a queue
   public boolean notifyUsers() throws JsonProcessingException {
     final List<User> notifiableUsers = userRepository.findByNotifyMeTrue();
-
     System.out.println(notifiableUsers.size());
-
-    return this.queueManager.send(jsonExtension.toJsonString(notifiableUsers));
+    return this.queueManager.sendMessage(jsonExtension.toJsonString(notifiableUsers));
   }
 
   public User updateUserMovie(final User user) {
