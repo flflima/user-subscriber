@@ -4,10 +4,10 @@ import br.com.api.usersubscriber.UserSubscriberApplication;
 import br.com.api.usersubscriber.domain.entity.User;
 import br.com.api.usersubscriber.domain.model.Movie;
 import br.com.api.usersubscriber.domain.model.exception.InvalidRequestBodyException;
-import br.com.api.usersubscriber.domain.service.UserService;
 import br.com.api.usersubscriber.infrastructure.gateway.MovieGateway;
 import br.com.api.usersubscriber.infrastructure.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,15 +23,21 @@ class UserServiceImplTest {
 
   final UserRepository userRepository = Mockito.mock(UserRepository.class);
   final MovieGateway movieGateway = Mockito.mock(MovieGateway.class);
+  final UserServiceImpl userService = new UserServiceImpl();
+
+  @BeforeEach
+  void init() {
+    userService.setMovieGateway(movieGateway);
+    userService.setUserRepository(userRepository);
+  }
 
   @Test
-  void givenAnUserWithValidInputWhenTheUserIsCreatedThenMustReturnTheSameValues()
+  void given_an_user_with_valid_input_when_the_user_is_created_then_must_return_the_same_values()
       throws InvalidRequestBodyException {
     final User user = new User("John Doe", "1980-10-10", "john.doe@email.com");
 
     when(userRepository.save(user)).thenReturn(user);
 
-    final UserService userService = new UserServiceImpl(userRepository, movieGateway);
     final User createdUser = userService.create(user);
 
     assertThat(user.getName()).isEqualTo(createdUser.getName());
@@ -42,13 +48,11 @@ class UserServiceImplTest {
 
   @Test
   void
-  given_an_user_with_an_invalid_name_field_when_the_user_is_created_then_must_throw_an_exception() {
+      given_an_user_with_an_invalid_name_field_when_the_user_is_created_then_must_throw_an_exception() {
     final User user = new User("", "", "");
 
-    final UserService userService = new UserServiceImpl(userRepository, movieGateway);
-
     final InvalidRequestBodyException ex =
-            Assertions.assertThrows(InvalidRequestBodyException.class, () -> userService.create(user));
+        Assertions.assertThrows(InvalidRequestBodyException.class, () -> userService.create(user));
 
     assertThat(ex).hasMessage("The name field must not be null or empty.");
     assertThat(ex.getStatusCode()).isEqualTo(422);
@@ -56,13 +60,11 @@ class UserServiceImplTest {
 
   @Test
   void
-  given_an_user_with_an_null_name_field_when_the_user_is_created_then_must_throw_an_exception() {
+      given_an_user_with_an_null_name_field_when_the_user_is_created_then_must_throw_an_exception() {
     final User user = new User(null, "", "");
 
-    final UserService userService = new UserServiceImpl(userRepository, movieGateway);
-
     final InvalidRequestBodyException ex =
-            Assertions.assertThrows(InvalidRequestBodyException.class, () -> userService.create(user));
+        Assertions.assertThrows(InvalidRequestBodyException.class, () -> userService.create(user));
 
     assertThat(ex).hasMessage("The name field must not be null or empty.");
     assertThat(ex.getStatusCode()).isEqualTo(422);
@@ -70,13 +72,11 @@ class UserServiceImplTest {
 
   @Test
   void
-  given_an_user_with_an_invalid_birthDate_field_when_the_user_is_created_then_must_throw_an_exception() {
+      given_an_user_with_an_invalid_birthDate_field_when_the_user_is_created_then_must_throw_an_exception() {
     final User user = new User("John Doe", "", "");
 
-    final UserService userService = new UserServiceImpl(userRepository, movieGateway);
-
     final InvalidRequestBodyException ex =
-            Assertions.assertThrows(InvalidRequestBodyException.class, () -> userService.create(user));
+        Assertions.assertThrows(InvalidRequestBodyException.class, () -> userService.create(user));
 
     assertThat(ex).hasMessage("The birthDate field must not be null or empty.");
     assertThat(ex.getStatusCode()).isEqualTo(422);
@@ -84,13 +84,11 @@ class UserServiceImplTest {
 
   @Test
   void
-  given_an_user_with_a_null_birthDate_field_when_the_user_is_created_then_must_throw_an_exception() {
+      given_an_user_with_a_null_birthDate_field_when_the_user_is_created_then_must_throw_an_exception() {
     final User user = new User("John Doe", null, "");
 
-    final UserService userService = new UserServiceImpl(userRepository, movieGateway);
-
     final InvalidRequestBodyException ex =
-            Assertions.assertThrows(InvalidRequestBodyException.class, () -> userService.create(user));
+        Assertions.assertThrows(InvalidRequestBodyException.class, () -> userService.create(user));
 
     assertThat(ex).hasMessage("The birthDate field must not be null or empty.");
     assertThat(ex.getStatusCode()).isEqualTo(422);
@@ -98,13 +96,11 @@ class UserServiceImplTest {
 
   @Test
   void
-  given_an_user_with_an_invalid_email_field_when_the_user_is_created_then_must_throw_an_exception() {
+      given_an_user_with_an_invalid_email_field_when_the_user_is_created_then_must_throw_an_exception() {
     final User user = new User("John Doe", "1980-10-10", "");
 
-    final UserService userService = new UserServiceImpl(userRepository, movieGateway);
-
     final InvalidRequestBodyException ex =
-            Assertions.assertThrows(InvalidRequestBodyException.class, () -> userService.create(user));
+        Assertions.assertThrows(InvalidRequestBodyException.class, () -> userService.create(user));
 
     assertThat(ex).hasMessage("The email field must not be null or empty.");
     assertThat(ex.getStatusCode()).isEqualTo(422);
@@ -112,13 +108,11 @@ class UserServiceImplTest {
 
   @Test
   void
-  given_an_user_with_a_null_email_field_when_the_user_is_created_then_must_throw_an_exception() {
+      given_an_user_with_a_null_email_field_when_the_user_is_created_then_must_throw_an_exception() {
     final User user = new User("John Doe", "1980-10-10", null);
 
-    final UserService userService = new UserServiceImpl(userRepository, movieGateway);
-
     final InvalidRequestBodyException ex =
-            Assertions.assertThrows(InvalidRequestBodyException.class, () -> userService.create(user));
+        Assertions.assertThrows(InvalidRequestBodyException.class, () -> userService.create(user));
 
     assertThat(ex).hasMessage("The email field must not be null or empty.");
     assertThat(ex.getStatusCode()).isEqualTo(422);
@@ -133,18 +127,17 @@ class UserServiceImplTest {
             "john.doe@email.com",
             new Movie("001", "Movie test", "Teste", "2020"));
 
-    final UserService userService = new UserServiceImpl(userRepository, movieGateway);
+    Movie randomMovie = new Movie("002", "New movie test", "Novo teste", "2020");
+
+    when(movieGateway.getRandomMovie())
+        .thenReturn(randomMovie);
 
     when(userRepository.save(any()))
-        .thenReturn(
-            new User(
-                "John Doe",
-                "1980-10-10",
-                "john.doe@email.com",
-                new Movie("002", "New movie test", "Novo teste", "2020")));
+        .thenReturn(new User(user, randomMovie));
 
     final User updatedUser = userService.updateUserMovie(user);
 
+    assertThat(updatedUser.getId()).isEqualTo(user.getId());
     assertThat(updatedUser.getMovie().getId()).isNotEqualTo(user.getMovie().getId());
   }
 }

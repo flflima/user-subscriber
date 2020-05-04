@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
       throw new InvalidRequestBodyException(
           "The name field must not be null or empty.", HttpStatus.SC_UNPROCESSABLE_ENTITY);
     }
-    if (user.getBirthDate().trim().isEmpty()) {
+    if (user.getBirthDate() == null || user.getBirthDate().trim().isEmpty()) {
       throw new InvalidRequestBodyException(
           "The birthDate field must not be null or empty.", HttpStatus.SC_UNPROCESSABLE_ENTITY);
     }
