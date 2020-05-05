@@ -72,6 +72,27 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Notifies a user by ID",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/users/{{id}}/alert",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"{{id}}",
+						"alert"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}

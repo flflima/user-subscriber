@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,6 +42,15 @@ public class UserController {
   @PostMapping(value = "/alert")
   public ResponseEntity alertAllUsers() throws Exception {
     if (!this.userService.notifyUsers()) {
+      //TODO
+      throw new Exception("");
+    }
+    return new ResponseEntity<>(HttpStatus.ACCEPTED);
+  }
+
+  @PostMapping(value = "{id}/alert")
+  public ResponseEntity alertUser(@PathVariable(value = "id") String userId) throws Exception {
+    if (!this.userService.notifyUserById(userId)) {
       //TODO
       throw new Exception("");
     }

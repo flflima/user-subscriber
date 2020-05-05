@@ -14,4 +14,6 @@ public interface UserService {
   boolean notifyUsers() throws JsonProcessingException;
 
   User updateUserMovie(User user);
+
+  boolean notifyUserById(String userId) throws JsonProcessingException;
 }

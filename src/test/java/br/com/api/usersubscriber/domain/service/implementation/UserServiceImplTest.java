@@ -7,9 +7,9 @@ import br.com.api.usersubscriber.domain.model.exception.InvalidRequestBodyExcept
 import br.com.api.usersubscriber.infrastructure.gateway.MovieGateway;
 import br.com.api.usersubscriber.infrastructure.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -21,15 +21,14 @@ import static org.mockito.Mockito.when;
 @ContextConfiguration(classes = UserSubscriberApplication.class)
 class UserServiceImplTest {
 
-  final UserRepository userRepository = Mockito.mock(UserRepository.class);
-  final MovieGateway movieGateway = Mockito.mock(MovieGateway.class);
-  final UserServiceImpl userService = new UserServiceImpl();
+  @Mock
+  UserRepository userRepository;
 
-  @BeforeEach
-  void init() {
-    userService.setMovieGateway(movieGateway);
-    userService.setUserRepository(userRepository);
-  }
+  @Mock
+  MovieGateway movieGateway;
+
+  @InjectMocks
+  UserServiceImpl userService;
 
   @Test
   void given_an_user_with_valid_input_when_the_user_is_created_then_must_return_the_same_values()

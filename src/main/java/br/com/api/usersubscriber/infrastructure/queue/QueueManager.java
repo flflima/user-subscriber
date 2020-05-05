@@ -32,13 +32,18 @@ public class QueueManager {
     this.userService = userService;
   }
 
-  public boolean sendMessage(String payload) {
+  public boolean sendMessageToAllSubscribers(String payload) {
     jmsTemplate.convertAndSend("all-subscribers", payload);
     return true;
   }
 
+  public boolean sendMessageToSubscriber(String payload) {
+    jmsTemplate.convertAndSend("subscribers", payload);
+    return true;
+  }
+
   @JmsListener(destination = "all-subscribers")
-  protected void receiveMessage(String message) throws Exception {
+  protected void receiveAllSubscribers(String message) {
     try {
       final List<User> users = jsonExtension.toObjectList(message, User.class);
 
@@ -47,6 +52,17 @@ public class QueueManager {
             System.out.println("received " + user);
             userService.updateUserMovie(user);
           });
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  @JmsListener(destination = "subscribers")
+  protected void receiveSubscriber(String message) {
+    try {
+      final User user = jsonExtension.toObject(message, User.class);
+      System.out.println("received " + user);
+      userService.updateUserMovie(user);
     } catch (IOException e) {
       e.printStackTrace();
     }

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -73,10 +74,20 @@ public class UserServiceImpl implements UserService {
     }
   }
 
+  @Override
   public boolean notifyUsers() throws JsonProcessingException {
     final List<User> notifiableUsers = userRepository.findByNotifyMeTrue();
     System.out.println(notifiableUsers.size());
-    return this.queueManager.sendMessage(jsonExtension.toJsonString(notifiableUsers));
+    return this.queueManager.sendMessageToAllSubscribers(
+        jsonExtension.toJsonString(notifiableUsers));
+  }
+
+  @Override
+  public boolean notifyUserById(String userId) throws JsonProcessingException {
+    final Optional<User> user = userRepository.findById(userId);
+    if (user.isPresent()) {
+      return this.queueManager.sendMessageToSubscriber(jsonExtension.toJsonString(user.get()));
+    } else return false;
   }
 
   public User updateUserMovie(final User user) {
