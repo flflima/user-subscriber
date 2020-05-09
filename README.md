@@ -20,6 +20,12 @@ SPRING_DATA_MONGODB_PASSWORD=(mongodb password)
 
 # Movies API URL
 URL_MOVIE_RANDOM=(random movies URL)
+
+# QUEUE CONFIGURATION
+spring.activemq.broker-url=http://localhost:15672
+spring.activemq.user=(user)
+spring.activemq.password=(password)
+
 ```
 
 ## Build
@@ -80,3 +86,16 @@ Response
 ]
 ```
 
+### Alerts all users
+Request
+```bash
+curl -i -X POST 'http://localhost:8080/users/alert'
+```
+Returns a **201** status code
+
+### Alerts a user by ID
+Request
+```bash
+curl -i -X POST 'http://localhost:8080/users/01E7G2KY9W9FP463N1G4BWBAHM/alert'
+```
+Returns a **201** status code

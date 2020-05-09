@@ -2,6 +2,7 @@ package br.com.api.usersubscriber.domain.entity;
 
 import br.com.api.usersubscriber.domain.model.Movie;
 import de.huxhorn.sulky.ulid.ULID;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
@@ -10,11 +11,22 @@ import lombok.Setter;
 @Setter(AccessLevel.PRIVATE)
 public class User {
 
+  @ApiModelProperty(notes = "The User generated ID", example = "01E7ERKPTJTPYW7PPPBHRWBRVG")
   private String id = new ULID().nextULID();
+
+  @ApiModelProperty(notes = "The User's name", example = "John Doe")
   private String name;
+
+  @ApiModelProperty(notes = "The User's birth date", example = "1999-01-01")
   private String birthDate;
+
+  @ApiModelProperty(notes = "The User's e-mail", example = "johns@email.com")
   private String email;
+
+  @ApiModelProperty(notes = "The User's suggested movie")
   private Movie movie = new Movie();
+
+  @ApiModelProperty(notes = "If the user will or will not be notified", example = "false")
   private boolean notifyMe = true;
 
   public User() {}
